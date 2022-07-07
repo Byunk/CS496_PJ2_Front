@@ -45,7 +45,7 @@ dependencies {
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.8.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
     //Kakao Login
     implementation "com.kakao.sdk:v2-all:2.11.0" // 전체 모듈 설치, 2.11.0 버전부터 지원
