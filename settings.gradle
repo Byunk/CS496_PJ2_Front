@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+
+        //KakaoTalk
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
+    }
+}
+rootProject.name = "CS496_PJ2_Front"
+include ':app'
