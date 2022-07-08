@@ -10,10 +10,10 @@ import java.util.*
 
 interface RetrofitInterface {
 
-    @POST("/user/login")
+    @GET("/user/login")
     fun executeLogin(@Query("id") id: String, @Query("pw") pw: String): Call<Login>
 
-    @POST("/user/login")
+    @GET("/user/login")
     fun executeLogin(@Query("kakaoId") kakaoId: Long): Call<Login>
 
     // if kakaoId exists, username should be automatically fetched from KakaoTalk
