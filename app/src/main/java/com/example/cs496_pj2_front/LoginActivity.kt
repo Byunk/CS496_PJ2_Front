@@ -46,8 +46,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Login
         btnLogin.setOnClickListener {
-            val id = binding.etId.toString()
-            val pw = binding.etPassword.toString()
+            val id = binding.etId.text.toString()
+            val pw = binding.etPassword.text.toString()
             executeLogin(id, pw)
         }
 
