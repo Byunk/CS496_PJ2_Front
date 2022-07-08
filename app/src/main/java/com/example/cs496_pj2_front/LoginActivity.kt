@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.cs496_pj2_front.databinding.ActivityLoginBinding
 import com.example.cs496_pj2_front.model.Login
+import com.example.cs496_pj2_front.model.LoginRequest
 import com.example.cs496_pj2_front.model.User
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
@@ -164,8 +165,9 @@ class LoginActivity : AppCompatActivity() {
                             val pw = "password"
                             val username = user.kakaoAccount?.profile?.nickname!!
 
+                            val request = LoginRequest(id, pw, username, kakaoId.toString())
                             val callSignup = APIService.retrofitInterface
-                                .executeSignup(id, pw, username, kakaoId)
+                                .executeSignup(request)
 
                             callSignup.enqueue(object: Callback<Int>{
                                 override fun onFailure(call: Call<Int>, t: Throwable) {
