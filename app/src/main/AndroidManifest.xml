@@ -17,10 +17,10 @@
         android:theme="@style/Theme.CS496_PJ2_Front"
         tools:targetApi="31">
         <activity
-            android:name=".CalendarDetailActivity"
+            android:name=".profile.CalendarDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileCalendarActivity"
+            android:name=".profile.ProfileCalendarActivity"
             android:exported="false" />
         <activity
             android:name=".ServerConnectingTestActivity"

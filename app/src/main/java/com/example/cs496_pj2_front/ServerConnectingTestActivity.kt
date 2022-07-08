@@ -13,12 +13,12 @@ class ServerConnectingTestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_server_connecting_test)
 
         val call = APIService.retrofitInterface.test()
-        call.enqueue(object: Callback<ResponseCode> {
-            override fun onFailure(call: Call<ResponseCode>, t: Throwable) {
+        call.enqueue(object: Callback<Int> {
+            override fun onFailure(call: Call<Int>, t: Throwable) {
                 Log.e("Test", t.message!!)
             }
 
-            override fun onResponse(call: Call<ResponseCode>, response: Response<ResponseCode>) {
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
                 Log.i("Test", response.body().toString())
             }
         })
