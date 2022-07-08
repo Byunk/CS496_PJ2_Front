@@ -4,6 +4,7 @@ import com.example.cs496_pj2_front.model.Login
 import com.example.cs496_pj2_front.model.Schedule
 import com.example.cs496_pj2_front.model.User
 import retrofit2.Call
+import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -12,19 +13,19 @@ import java.util.*
 interface RetrofitInterface {
 
     @POST("/user/login")
-    fun executeLogin(@Query("id") id: String, @Query("pw") pw: String): Call<Login>
+    fun executeLogin(@Field("id") id: String, @Field("pw") pw: String): Call<Login>
 
     @POST("/user/login")
-    fun executeLogin(@Query("kakaoId") kakaoId: Long): Call<Login>
+    fun executeLogin(@Field("kakaoId") kakaoId: Long): Call<Login>
 
 
     // if kakaoId exists, username should be automatically fetched from KakaoTalk
     @POST("/user/signup")
-    fun executeSignup(@Query("id") id: String, @Query("pw") pw: String, @Query("username") username: String): Call<Int>
+    fun executeSignup(@Field("id") id: String, @Field("pw") pw: String, @Field("username") username: String): Call<Int>
 
 
     @POST("/user/signup")
-    fun executeSignup(@Query("id") id: String, @Query("pw") pw: String, @Query("username") username: String, @Query("kakaoId") kakaoId: Long?): Call<Int>
+    fun executeSignup(@Field("id") id: String, @Field("pw") pw: String, @Field("username") username: String, @Field("kakaoId") kakaoId: Long?): Call<Int>
 
     @GET("/user/{id}")
     fun getUserById(@Query("id") id: UUID): Call<User>
