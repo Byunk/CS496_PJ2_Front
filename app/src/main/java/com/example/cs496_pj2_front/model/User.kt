@@ -1,20 +1,31 @@
 package com.example.cs496_pj2_front.model
 
-import com.example.cs496_pj2_front.ResponseCode
-import java.io.Serializable
+import android.os.Parcel
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import java.util.*
+import kotlin.collections.ArrayList
 
+@Parcelize
 data class User(
-    val code: ResponseCode,
+    val id: UUID,
 
-    // Login Info
-    val id: String,
-    val pw: String,
-    val username: String,
-    val kakaoId: Long?,
-
-    // Variables
+    val name: String,
+    val imgUrl: String,
     var status: String = "",
-    var friends: ArrayList<String> = arrayListOf<String>()
-): Serializable
+    var friends: ArrayList<UUID> = arrayListOf<UUID>(),
 
-object UserData
+    var food: String,
+    var hobby: String,
+    var favorites: String,
+    var weekend: String,
+
+    ): Parcelable
+
+/*
+fun createUserWithKakaoAccount(kakaoId: Long, account: com.kakao.sdk.user.model.Account): User {
+    val id = account.email!!
+    val username = account.profile?.nickname!!
+
+    //return User(id = id, username = username, kakaoId = kakaoId)
+}*/

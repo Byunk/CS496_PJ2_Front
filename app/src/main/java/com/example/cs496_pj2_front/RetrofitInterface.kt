@@ -1,35 +1,44 @@
 package com.example.cs496_pj2_front
 
 import com.example.cs496_pj2_front.model.Login
-import com.example.cs496_pj2_front.model.Profile
+import com.example.cs496_pj2_front.model.Schedule
 import com.example.cs496_pj2_front.model.User
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
+import java.util.*
 
 interface RetrofitInterface {
 
-    @GET("/user/")
-    fun getUserList(): Call<Profile>
+    @POST("/user/login")
+    fun executeLogin(id: String, pw: String): Call<Login>
 
     @POST("/user/login")
-    fun executeLogin(id: String, pw: String): Call<User>
+    fun executeLogin(kakaoId: Long): Call<Login>
+
+    // if kakaoId exists, username should be automatically fetched from KakaoTalk
+    @POST("/user/signup")
+    fun executeSignup(id: String, pw: String, username: String): Call<Int>
 
     @POST("/user/signup")
-    fun executeSignup(id: String, pw: String, username: String, kakaoId: Long?): Call<ResponseCode>
+    fun executeSignup(id: String, pw: String, username: String, kakaoId: Long): Call<Int>
 
     @GET("/user/{id}")
-    fun getUserByKakao(kakaoId: Long): Call<User>
+    fun getUserById(id: UUID): Call<User>
+
+    @GET("/")
+    fun getUserSchedule(year: Int, month: Int): Call<Schedule>
 
     @GET("/test")
-    fun test(): Call<ResponseCode>
+    fun test(): Call<Int>
 }
 
-data class Response(
-    val code: ResponseCode
-)
+const val SUCCESS = 200
+const val FAILURE = 400
 
+
+/*
 enum class ResponseCode(val code: Int) {
     SUCCESS(200),
     FAILURE(400)
-}
+}*/

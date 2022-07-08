@@ -5,16 +5,21 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cs496_pj2_front.APIService
 import com.example.cs496_pj2_front.databinding.RowProfileBinding
-import com.example.cs496_pj2_front.model.Profile
 import com.example.cs496_pj2_front.model.User
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.*
 
-class ProfileAdapter(user: User): RecyclerView.Adapter<ProfileAdapter.CustomViewHolder>() {
+class ProfileAdapter(data: User): RecyclerView.Adapter<ProfileAdapter.CustomViewHolder>() {
 
     private lateinit var binding: RowProfileBinding
     private lateinit var context: Context
-    private val data = user
+    private val ids = data.friends
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,11 +32,11 @@ class ProfileAdapter(user: User): RecyclerView.Adapter<ProfileAdapter.CustomView
     }
 
     override fun getItemCount(): Int {
-        return data.friends.size
+        return ids.size
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-
+        holder.bind(ids[position])
     }
 
     inner class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -39,18 +44,30 @@ class ProfileAdapter(user: User): RecyclerView.Adapter<ProfileAdapter.CustomView
         val status = binding.profileStatus
         val image = binding.imgProfile
 
-        fun bind(item: User) {
-            name.text = item.username
-            status.text = item.status
+        fun bind(item: UUID) {
+            // Fetching User Data
+            val call = APIService.retrofitInterface.getUserById(item)
+            call.enqueue(object: Callback<User> {
+                override fun onFailure(call: Call<User>, t: Throwable) {
+                    Toast.makeText(context, "Failed to Fetching User Data", Toast.LENGTH_SHORT).show()
+                }
 
-            // Fetching Img
+                override fun onResponse(call: Call<User>, response: Response<User>) {
+                    // Regarding no failure
+                    val user = response.body()!!
+                    name.text = user.name
+                    status.text = user.status
 
-            // Listener
-            itemView.setOnClickListener {
-                val intent = Intent(context, ProfileDetailActivity::class.java)
-                context.startActivity(intent)
-            }
+                    // Fetching Image
 
+                    // Click Listener
+                    itemView.setOnClickListener {
+                        val intent = Intent(context, ProfileDetailActivity::class.java)
+                        intent.putExtra("userData", user)
+                        context.startActivity(intent)
+                    }
+                }
+            })
         }
     }
 

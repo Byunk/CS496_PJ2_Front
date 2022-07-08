@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_profiles"
+        android:id="@+id/nav_profile"
         android:icon="@drawable/account"
         android:title="Profile" />
     <item
-        android:id="@+id/nav_chats"
+        android:id="@+id/nav_chat"
         android:icon="@drawable/chat"
         android:title="Chatting" />
     <item android:title="Item" />

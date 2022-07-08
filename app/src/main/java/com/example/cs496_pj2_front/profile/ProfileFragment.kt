@@ -10,10 +10,10 @@ import com.example.cs496_pj2_front.LoginActivity
 import com.example.cs496_pj2_front.databinding.FragmentProfileBinding
 import com.example.cs496_pj2_front.model.User
 
-class ProfileFragment : Fragment() {
+class ProfileFragment(data: User) : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var data: User
+    private val data: User = data
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,7 +21,6 @@ class ProfileFragment : Fragment() {
     ): View? {
 
         binding = FragmentProfileBinding.inflate(inflater, container, false)
-        //val serializableData = activity?.intent.getSerializableExtra("data")
 
         return binding.root
     }
@@ -33,7 +32,6 @@ class ProfileFragment : Fragment() {
         val rvProfile = binding.rvProfile
 
         rvProfile.layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-
-        //rvProfile.adapter =
+        rvProfile.adapter = ProfileAdapter(data)
     }
 }

@@ -1,10 +1,7 @@
 package com.example.cs496_pj2_front.model
 
-import com.example.cs496_pj2_front.ResponseCode
+import java.util.*
 
 data class Login(
-
-    val code: ResponseCode,
-    val msg: String
-
+    val userId: UUID?
 )

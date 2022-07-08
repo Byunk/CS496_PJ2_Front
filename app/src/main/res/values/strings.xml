@@ -2,6 +2,14 @@
     <string name="app_name">CS496_PJ2_Front</string>
     <string name="profile_name">변경호</string>
     <string name="profile_status">코딩중...</string>
+    <string name="favorite_food">좋아하는 음식: </string>
+    <string name="favorite_food_des">한식, 막창, 스시, 삽겹살 </string>
+    <string name="hobby">취미: </string>
+    <string name="hobby_des">풋살, 술마시기</string>
+    <string name="favorites">관심사는 </string>
+    <string name="favorites_des">고양이, 강아지</string>
+    <string name="what_to_do_weekend">주말에 나는 </string>
+    <string name="what_to_do_weekend_des">집에서 뒹굴뒹굴</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
