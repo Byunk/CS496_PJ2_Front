@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cs496_pj2_front.databinding.RowProfileBinding
 import com.example.cs496_pj2_front.model.Profile
+import com.example.cs496_pj2_front.model.User
 
-class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.CustomViewHolder>() {
+class ProfileAdapter(user: User): RecyclerView.Adapter<ProfileAdapter.CustomViewHolder>() {
 
     private lateinit var binding: RowProfileBinding
     private lateinit var context: Context
+    private val data = user
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -20,7 +22,16 @@ class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.CustomViewHolder>() {
     ): CustomViewHolder {
         context = parent.context
         binding = RowProfileBinding.inflate(LayoutInflater.from(context))
+
         return CustomViewHolder(binding.root)
+    }
+
+    override fun getItemCount(): Int {
+        return data.friends.size
+    }
+
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+
     }
 
     inner class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -28,17 +39,16 @@ class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.CustomViewHolder>() {
         val status = binding.profileStatus
         val image = binding.imgProfile
 
-        fun bind(item: Profile) {
-            name.text = item.name
+        fun bind(item: User) {
+            name.text = item.username
             status.text = item.status
+
             // Fetching Img
 
-
+            // Listener
             itemView.setOnClickListener {
-                val intent = Intent(context, ProfileDetailActivity::class.java).apply {
-                    putExtra("name", item.name)
-                    putExtra("status", item.status)
-                }.run { context.startActivity(this) }
+                val intent = Intent(context, ProfileDetailActivity::class.java)
+                context.startActivity(intent)
             }
 
         }

@@ -13,13 +13,16 @@ interface RetrofitInterface {
     fun getUserList(): Call<Profile>
 
     @POST("/user/login")
-    fun executeLogin(id: String, pw: String): Call<Login>
+    fun executeLogin(id: String, pw: String): Call<User>
 
     @POST("/user/signup")
-    fun executeSignup(id: String, pw: String, username: String, kakaoId: Long?): Call<User>
+    fun executeSignup(id: String, pw: String, username: String, kakaoId: Long?): Call<ResponseCode>
 
     @GET("/user/{id}")
-    fun getUserByKakao(kakaoId: Long?): Call<User>
+    fun getUserByKakao(kakaoId: Long): Call<User>
+
+    @GET("/test")
+    fun test(): Call<ResponseCode>
 }
 
 data class Response(

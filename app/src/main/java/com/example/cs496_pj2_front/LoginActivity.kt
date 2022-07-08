@@ -27,9 +27,9 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val context = this
-    private lateinit var loginInfo: Login
 
-    lateinit var data: Account
+    lateinit var data: User
+    lateinit var kakaoData: Account
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Signup
         btnSignup.setOnClickListener {
-            val intent = Intent()
+            val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
         }
 
@@ -89,23 +89,30 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun intentToMain(data: User) {
+        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+        intent.putExtra("userData", data)
+        startActivity(intent)
+        finish()
+    }
+
     private fun executeLogin(id: String, pw: String) {
 
         val call = APIService.retrofitInterface.executeLogin(id, pw)
-        call.enqueue(object: Callback<Login> {
-            override fun onFailure(call: Call<Login>, t: Throwable) {
+        call.enqueue(object: Callback<User> {
+            override fun onFailure(call: Call<User>, t: Throwable) {
                 Log.e(TAG, t.message!!)
-                Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "로그인 오류", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onResponse(call: Call<Login>, response: Response<Login>) {
-                if (response.body()?.code == APIService.FAILURE_CODE) {
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                if (response.body()?.code == ResponseCode.FAILURE) {
                     // Move to sign up page
+                    Toast.makeText(context, "계정정보가 존재하지 않음.", Toast.LENGTH_SHORT).show()
                 } else {
                     // Move to Main Activity
-                    loginInfo = response.body()!!
-                    val intent = Intent(context, MainActivity::class.java)
-                    startActivity(intent)
+                    data = response.body()!!
+                    intentToMain(data)
                 }
             }
         })
@@ -120,7 +127,7 @@ class LoginActivity : AppCompatActivity() {
                 val id = user.id!!
 
                 // Fetch KakaoTalk Data and POST
-                data = user.kakaoAccount!!
+                kakaoData = user.kakaoAccount!!
 
                 Log.i(TAG, "사용자 요청 정보 성공" +
                         "\n회원번호: ${id}" +
@@ -136,50 +143,42 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     override fun onResponse(call: Call<User>, response: Response<User>) {
-                        var userData = response.body()
-                        if (userData?.code == APIService.FAILURE_CODE) {
+                        val response = response.body()!!
+                        if (response.code == ResponseCode.FAILURE) {
                             // If no local ID, PW -> Auto Sign up
                             val callSignup = APIService.retrofitInterface.executeSignup(user.kakaoAccount?.email!!, "password", user.kakaoAccount?.profile?.nickname!!, id)
 
-                            callSignup.enqueue(object: Callback<User>{
-                                override fun onFailure(call: Call<User>, t: Throwable) {
+                            callSignup.enqueue(object: Callback<ResponseCode>{
+                                override fun onFailure(call: Call<ResponseCode>, t: Throwable) {
                                     Log.e(TAG, t.message!!)
+                                    Toast.makeText(context, "자동 로그인 오류. 다시 시도하세요.", Toast.LENGTH_SHORT).show()
                                 }
 
                                 override fun onResponse(
-                                    call: Call<User>,
-                                    response: Response<User>
+                                    call: Call<ResponseCode>,
+                                    response: Response<ResponseCode>
                                 ) {
+                                   if (response.body() == ResponseCode.FAILURE) {
+                                       Toast.makeText(context, "회원 가입 실패.", Toast.LENGTH_SHORT).show()
+                                   } else {
+                                       Toast.makeText(context, "자동 로그인 성공. 비밀번호를 변경하세요. 기본 비밀번호: password", Toast.LENGTH_SHORT).show()
 
+                                       // Make Data
+                                       data = User(ResponseCode.SUCCESS, kakaoData.email!!, "password", kakaoData.profile?.nickname!!, id)
+
+                                       intentToMain(data)
+                                   }
                                 }
                             })
-
-
-
                         } else {
                             // If exists, Sign in
-
-
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
+                            data = response
+                            intentToMain(data)
                         }
                     }
                 })
-
-
-
-
-
-
-
             }
         }
-
-
-
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-        finish()
     }
 
     private fun signinWithKaKao(callback: (OAuthToken?, Throwable?) -> Unit) {
@@ -201,7 +200,7 @@ class LoginActivity : AppCompatActivity() {
                 } else if (token != null) {
                     Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
                     Toast.makeText(this, "Login Success!", Toast.LENGTH_SHORT).show()
-                    executeLogin()
+                    executeKakaoLogin()
                 }
             }
         } else {

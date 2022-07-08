@@ -49,16 +49,20 @@ class SignupActivity : AppCompatActivity() {
             } else {
                 val call = APIService.retrofitInterface.executeSignup(username, id, password, null)
 
-                call.enqueue(object: Callback<User> {
-                    override fun onFailure(call: Call<User>, t: Throwable) {
+                call.enqueue(object: Callback<ResponseCode> {
+                    override fun onFailure(call: Call<ResponseCode>, t: Throwable) {
                         Log.e(ContentValues.TAG, t.message!!)
-                        Toast.makeText(this@SignupActivity, "회원가입 실패", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@SignupActivity, "회원가입 오류", Toast.LENGTH_SHORT).show()
                     }
 
-                    override fun onResponse(call: Call<User>, response: Response<User>) {
-                        // Move to Main Activity
-                        Toast.makeText(this@SignupActivity, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                        finish()
+                    override fun onResponse(call: Call<ResponseCode>, response: Response<ResponseCode>) {
+                        if (response.body() == ResponseCode.FAILURE) {
+                            Toast.makeText(this@SignupActivity, "회원가입 실패. 다시 시도하세요.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // Move to Login Activity
+                            Toast.makeText(this@SignupActivity, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
                     }
                 })
             }
