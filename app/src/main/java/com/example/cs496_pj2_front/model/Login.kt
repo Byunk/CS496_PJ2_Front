@@ -7,6 +7,12 @@ data class Login(
 )
 
 data class LoginRequest(
+    val id: String?,
+    val pw: String?,
+    val kakaoid: String?
+)
+
+data class SignupRequest(
     val id: String,
     val pw: String,
     val username: String,

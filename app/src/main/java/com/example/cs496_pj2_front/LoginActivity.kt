@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.example.cs496_pj2_front.databinding.ActivityLoginBinding
 import com.example.cs496_pj2_front.model.Login
 import com.example.cs496_pj2_front.model.LoginRequest
+import com.example.cs496_pj2_front.model.SignupRequest
 import com.example.cs496_pj2_front.model.User
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
@@ -129,12 +130,14 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun executeLogin(id: String, pw: String) {
-        val call = APIService.retrofitInterface.executeLogin(id, pw)
+        val request = LoginRequest(id, pw, null)
+        val call = APIService.retrofitInterface.executeLogin(request)
         loginCallback(call)
     }
 
     private fun executeLogin(kakaoId: Long) {
-        val call = APIService.retrofitInterface.executeLogin(kakaoId)
+        val request = LoginRequest(null, null, kakaoId.toString())
+        val call = APIService.retrofitInterface.executeLogin(request)
         loginCallback(call)
     }
 
@@ -152,7 +155,8 @@ class LoginActivity : AppCompatActivity() {
                         "\n프로필사진: ${user.kakaoAccount?.profile?.profileImageUrl}")
 
                 // Check DB
-                val call = APIService.retrofitInterface.executeLogin(kakaoId)
+                val request = LoginRequest(null, null, kakaoId.toString())
+                val call = APIService.retrofitInterface.executeLogin(request)
                 call.enqueue(object: Callback<Login> {
                     override fun onFailure(call: Call<Login>, t: Throwable) {
                         Log.e(TAG, t.message!!)
@@ -165,7 +169,7 @@ class LoginActivity : AppCompatActivity() {
                             val pw = "password"
                             val username = user.kakaoAccount?.profile?.nickname!!
 
-                            val request = LoginRequest(id, pw, username, kakaoId.toString())
+                            val request = SignupRequest(id, pw, username, kakaoId.toString())
                             val callSignup = APIService.retrofitInterface
                                 .executeSignup(request)
 

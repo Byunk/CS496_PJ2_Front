@@ -1,24 +1,21 @@
 package com.example.cs496_pj2_front
 
-import com.example.cs496_pj2_front.model.Login
-import com.example.cs496_pj2_front.model.LoginRequest
-import com.example.cs496_pj2_front.model.Schedule
-import com.example.cs496_pj2_front.model.User
+import com.example.cs496_pj2_front.model.*
 import retrofit2.Call
 import retrofit2.http.*
 import java.util.*
 
 interface RetrofitInterface {
 
-    @GET("/user/login")
-    fun executeLogin(@Query("id") id: String, @Query("pw") pw: String): Call<Login>
+    @POST("/user/login")
+    fun executeLogin(@Body loginRequest: LoginRequest): Call<Login>
 
-    @GET("/user/login")
-    fun executeLogin(@Query("kakaoId") kakaoId: Long): Call<Login>
+    //@POST("/user/login")
+    //fun executeLogin(@Query("kakaoId") kakaoId: Long): Call<Login>
 
     // if kakaoId exists, username should be automatically fetched from KakaoTalk
     @POST("/user/signup")
-    fun executeSignup(@Body loginRequest: LoginRequest): Call<Int>
+    fun executeSignup(@Body signupRequest: SignupRequest): Call<Int>
 
 /*
     @POST("/user/signup")

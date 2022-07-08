@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.cs496_pj2_front.databinding.ActivitySignupBinding
 import com.example.cs496_pj2_front.model.LoginRequest
+import com.example.cs496_pj2_front.model.SignupRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,7 +44,7 @@ class SignupActivity : AppCompatActivity() {
                 // Invalid Effect
 
             } else {
-                val request = LoginRequest(id, password, username, null)
+                val request = SignupRequest(id, password, username, null)
                 val call = APIService.retrofitInterface.executeSignup(request)
 
                 call.enqueue(object: Callback<Int> {
