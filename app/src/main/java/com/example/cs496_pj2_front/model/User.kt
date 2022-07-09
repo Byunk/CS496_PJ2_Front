@@ -12,7 +12,7 @@ data class User(
     val name: String,
     val imgUrl: String,
     var status: String = "",
-    var friends: ArrayList<UUID> = arrayListOf<UUID>(),
+    var friends: ArrayList<String> = arrayListOf<String>(),
 
     var food: String,
     var hobby: String,

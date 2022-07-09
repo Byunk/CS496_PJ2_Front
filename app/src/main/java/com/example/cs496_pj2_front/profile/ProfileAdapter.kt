@@ -44,7 +44,7 @@ class ProfileAdapter(data: User): RecyclerView.Adapter<ProfileAdapter.CustomView
         val status = binding.profileStatus
         val image = binding.imgProfile
 
-        fun bind(item: UUID) {
+        fun bind(item: String) {
             // Fetching User Data
             val call = APIService.retrofitInterface.getUserById(item)
             call.enqueue(object: Callback<User> {
