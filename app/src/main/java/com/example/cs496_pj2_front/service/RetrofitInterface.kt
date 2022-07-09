@@ -15,22 +15,20 @@ interface RetrofitInterface {
     @POST("/user/signup")
     fun executeSignup(@Body signupRequest: SignupRequest): Call<ResponseCode>
 
-    // id: userID
     @GET("/user/{id}")
     fun getUserById(@Path("id") id: String): Call<User>
 
     @GET("/user/friends/{id}")
     fun getUserFriends(@Path("id") id: String): Call<FriendsResponse>
 
-    // id: userID
-    @GET("/")
+    @GET("/user/schedule/{id}")
     fun getUserMonthlySchedule(@Path("id") id: String, @Query("year") year: Int, @Query("month") month: Int): Call<ArrayList<Schedule>>
 
-    @GET()
+    @GET("/user/schedule/date/{id}")
     fun getUserDailySchedule(@Path("id") id: String, @Query("year") year: Int, @Query("month") month: Int, @Query("date") date: Int): Call<ArrayList<Schedule>>
-/*
-    @GET("/test")
-    fun test(): Call<Int>*/
+
+    @GET("/")
+    fun getChatsById(@Path("id") id: String): Call<ArrayList<Chat>>
 }
 
 const val SUCCESS = 200

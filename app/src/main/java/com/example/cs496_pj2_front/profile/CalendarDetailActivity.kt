@@ -20,11 +20,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CalendarDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCalendarDetailBinding
-    private lateinit var schedules: ArrayList<Schedule>
+    private var schedules: ArrayList<Schedule>? = null
 
     private lateinit var id: String
     private var year = 0
@@ -55,64 +56,68 @@ class CalendarDetailActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<ArrayList<Schedule>>, response: Response<ArrayList<Schedule>>) {
-                if (response.body() == null) {
-                    // init Schdule
-                    schedules = arrayListOf()
-                } else {
+                if (response.body() != null) {
                     schedules = response.body()!!
-                    schedules.sortWith(compareBy( { it.hour }, { it.minute }))
+                    schedules!!.sortBy { it.time }
+                } else {
+                    schedules = arrayListOf()
+                }
+
+                // Recycler View
+                val rvProfile = binding.rvCalendarDetail
+                val emptyView = binding.tvEmptyCalendar
+
+                if (schedules!!.isEmpty()) {
+                    emptyView.visibility = View.VISIBLE
+                    rvProfile.visibility = View.INVISIBLE
+                } else {
+                    emptyView.visibility = View.INVISIBLE
+                    rvProfile.visibility = View.VISIBLE
+
+                    rvProfile.layoutManager = LinearLayoutManager(this@CalendarDetailActivity, LinearLayoutManager.VERTICAL, false)
+                    rvProfile.adapter = CalendarDetailAdapter(schedules!!)
                 }
             }
         })
+    }
+}
 
-        // Recycler View
-        val rvProfile = binding.rvCalendarDetail
-        rvProfile.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rvProfile.adapter = CalendarDetailAdapter()
+class CalendarDetailAdapter(val schedules: ArrayList<Schedule>): RecyclerView.Adapter<CalendarDetailAdapter.CustomViewHolder>() {
 
+    private lateinit var binding: RowCalendarDetailBinding
+    private lateinit var context: Context
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CustomViewHolder {
+        context = parent.context
+        binding = RowCalendarDetailBinding.inflate(LayoutInflater.from(context))
+        return CustomViewHolder(binding.root)
     }
 
-    inner class CalendarDetailAdapter: RecyclerView.Adapter<CalendarDetailAdapter.CustomViewHolder>() {
-
-        private lateinit var binding: RowCalendarDetailBinding
-        private lateinit var context: Context
-
-        override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
-        ): CustomViewHolder {
-            context = parent.context
-            binding = RowCalendarDetailBinding.inflate(LayoutInflater.from(context))
-            return CustomViewHolder(binding.root)
-        }
-
-        override fun getItemCount(): Int {
-            return schedules.size
-        }
-
-        override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-            holder.bind(schedules[position])
-        }
-
-        inner class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-            val time = binding.tvTime
-            val todo = binding.tvTodo
-            val friends = binding.tvFriends
-            val location = binding.tvLocation
-
-            fun bind(schedule: Schedule) {
-                val timeText = schedule.hour.toString() + ":" + schedule.minute.toString()
-                time.text = timeText
-                todo.text = schedule.todo
-
-                var friendsText = ""
-                for (friend in schedule.friends) {
-                    friendsText += friend
-                }
-                friends.text = friendsText
-                location.text = schedule.location
-            }
-        }
-
+    override fun getItemCount(): Int {
+        return schedules.size
     }
+
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+        holder.bind(schedules!![position])
+    }
+
+    inner class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val time = binding.tvTime
+        val todo = binding.tvTodo
+        val friends = binding.tvFriends
+        val location = binding.tvLocation
+
+        fun bind(schedule: Schedule) {
+            time.text = schedule.time.toString()
+            todo.text = schedule.todo ?: "할 일"
+            friends.text = schedule.friends?.let{
+                it.toString()
+            } ?: ""
+            location.text = schedule.location ?: "장소"
+        }
+    }
+
 }

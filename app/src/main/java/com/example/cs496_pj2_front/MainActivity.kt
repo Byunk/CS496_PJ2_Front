@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         override fun createFragment(position: Int): Fragment {
             when (position) {
                 0 -> return ProfileFragment(id)
-                1 -> return ChatFragment()
+                1 -> return ChatFragment(id)
             }
             return ProfileFragment(id)
         }

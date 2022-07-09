@@ -34,8 +34,6 @@ class CalendarFragment(position: Int, val id: String) : Fragment() {
     private lateinit var mContext: Context
     private var pageIndex = position
 
-    //TODO: Fetch Data in OnCreate? OnResume?
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -78,7 +76,7 @@ class CalendarFragment(position: Int, val id: String) : Fragment() {
         val calendarMonth = SimpleDateFormat("MM", Locale.KOREA).format(date).toInt()
         val calendarYear = SimpleDateFormat("yyyy", Locale.KOREA).format(date).toInt()
 
-        lateinit var schedules: ArrayList<Schedule>
+        var schedules: ArrayList<Schedule>? = null
 
         init {
             customCalendar.initBaseCalendar()
@@ -107,8 +105,9 @@ class CalendarFragment(position: Int, val id: String) : Fragment() {
                 }
 
                 override fun onResponse(call: Call<ArrayList<Schedule>>, response: Response<ArrayList<Schedule>>) {
-                    // Regard no Failure
-                    schedules = response.body()!!
+                    if (response.body() != null) {
+                        schedules = response.body()!!
+                    }
                 }
             })
 
@@ -130,9 +129,15 @@ class CalendarFragment(position: Int, val id: String) : Fragment() {
                 itemCalendarDateText.setText(date.toString())
 
                 // Schedule 처리
-                val index = schedules.indexOfFirst { it.date == datelist[position] }
-                if (index != -1) {
-                    itemCalendarDateText.append("\n" + schedules[index].todo)
+                if (schedules != null) {
+                    val index = schedules!!.indexOfFirst { it.date == datelist[position] }
+
+                    if (index != -1) {
+                        //TODO: Showing Mark
+                        if (schedules!![index].todo != null) {
+                            itemCalendarDateText.append("\n" + schedules!![index].todo!!)
+                        }
+                    }
                 }
 
                 // 오늘 날짜 처리
