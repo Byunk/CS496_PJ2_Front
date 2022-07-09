@@ -23,7 +23,7 @@
             android:name=".profile.ProfileCalendarActivity"
             android:exported="false" />
         <activity
-            android:name=".ServerConnectingTestActivity"
+            android:name=".service.ServerConnectingTestActivity"
             android:exported="true" />
         <activity
             android:name=".SignupActivity"

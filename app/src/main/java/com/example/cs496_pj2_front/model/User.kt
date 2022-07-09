@@ -1,6 +1,5 @@
 package com.example.cs496_pj2_front.model
 
-import android.os.Parcel
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import java.util.*
@@ -21,11 +20,3 @@ data class User(
     var weekend: String,
 
     ): Parcelable
-
-/*
-fun createUserWithKakaoAccount(kakaoId: Long, account: com.kakao.sdk.user.model.Account): User {
-    val id = account.email!!
-    val username = account.profile?.nickname!!
-
-    //return User(id = id, username = username, kakaoId = kakaoId)
-}*/

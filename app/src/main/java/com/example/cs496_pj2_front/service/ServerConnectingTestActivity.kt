@@ -1,8 +1,9 @@
-package com.example.cs496_pj2_front
+package com.example.cs496_pj2_front.service
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.cs496_pj2_front.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

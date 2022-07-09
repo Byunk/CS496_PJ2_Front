@@ -1,7 +1,6 @@
 package com.example.cs496_pj2_front.profile
 
 import android.content.Context
-import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,12 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.cs496_pj2_front.APIService
-import com.example.cs496_pj2_front.R
+import com.example.cs496_pj2_front.service.APIService
 import com.example.cs496_pj2_front.databinding.FragmentCalendarBinding
 import com.example.cs496_pj2_front.model.CustomCalendar
 import com.example.cs496_pj2_front.model.Schedule
-import com.example.cs496_pj2_front.model.ScheduleType
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

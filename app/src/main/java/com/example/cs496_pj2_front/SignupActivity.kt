@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.cs496_pj2_front.databinding.ActivitySignupBinding
-import com.example.cs496_pj2_front.model.LoginRequest
 import com.example.cs496_pj2_front.model.SignupRequest
+import com.example.cs496_pj2_front.service.APIService
+import com.example.cs496_pj2_front.service.FAILURE
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

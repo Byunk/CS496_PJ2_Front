@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cs496_pj2_front.APIService
+import com.example.cs496_pj2_front.service.APIService
 import com.example.cs496_pj2_front.databinding.RowProfileBinding
 import com.example.cs496_pj2_front.model.User
 import retrofit2.Call

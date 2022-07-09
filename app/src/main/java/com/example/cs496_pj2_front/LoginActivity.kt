@@ -11,6 +11,8 @@ import com.example.cs496_pj2_front.model.Login
 import com.example.cs496_pj2_front.model.LoginRequest
 import com.example.cs496_pj2_front.model.SignupRequest
 import com.example.cs496_pj2_front.model.User
+import com.example.cs496_pj2_front.service.APIService
+import com.example.cs496_pj2_front.service.FAILURE
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
