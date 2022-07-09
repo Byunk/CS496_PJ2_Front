@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             object: ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
-                    navBar.menu.getItem(position).isChecked = true
+                    //navBar.menu.getItem(position).isChecked = true
                 }
             }
         )
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_profile -> pager.setCurrentItem(0)
-                //R.id.nav_chat -> pager.setCurrentItem(1)
+                R.id.nav_chat -> pager.setCurrentItem(1)
             }
             true
         }
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         override fun createFragment(position: Int): Fragment {
             when (position) {
                 0 -> return ProfileFragment(id)
-                //1 -> return ChatFragment()
+                1 -> return ChatFragment()
             }
             return ProfileFragment(id)
         }

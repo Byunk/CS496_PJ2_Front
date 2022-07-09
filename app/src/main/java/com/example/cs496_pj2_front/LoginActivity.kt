@@ -118,7 +118,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                Log.i(APIService.TAG, response.body()?.id!!)
+                //Log.i(APIService.TAG, response.body()?.id!!)
                 if (response.body()?.id == null) {
                     Toast.makeText(context, "계정정보가 존재하지 않음.", Toast.LENGTH_SHORT).show()
                 } else {

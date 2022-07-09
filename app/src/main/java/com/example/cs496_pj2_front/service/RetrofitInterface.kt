@@ -19,8 +19,8 @@ interface RetrofitInterface {
     @GET("/user/{id}")
     fun getUserById(@Path("id") id: String): Call<User>
 
-    @GET("/")
-    fun getUserFriends(@Path("id") id: String): Call<Friends>
+    @GET("/user/friends/{id}")
+    fun getUserFriends(@Path("id") id: String): Call<FriendsResponse>
 
     // id: userID
     @GET("/")

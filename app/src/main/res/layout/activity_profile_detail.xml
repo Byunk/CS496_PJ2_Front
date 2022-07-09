@@ -20,88 +20,48 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_food"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="100dp"
-                android:text="@string/favorite_food"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/tv_food_des"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="50dp"
                 android:text="@string/favorite_food_des"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_food"
-                app:layout_constraintStart_toEndOf="@+id/tv_food"
-                app:layout_constraintTop_toTopOf="@+id/tv_food" />
-
-            <TextView
-                android:id="@+id/tv_hobby"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/hobby"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_food"
-                app:layout_constraintTop_toBottomOf="@+id/tv_food" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_hobby_des"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/hobby_des"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_hobby"
-                app:layout_constraintStart_toEndOf="@+id/tv_hobby"
-                app:layout_constraintTop_toTopOf="@+id/tv_hobby" />
-
-            <TextView
-                android:id="@+id/tv_favorites"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/favorites"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_hobby"
-                app:layout_constraintTop_toBottomOf="@+id/tv_hobby" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_food_des" />
 
             <TextView
                 android:id="@+id/tv_favorites_des"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/favorites_des"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_favorites"
-                app:layout_constraintStart_toEndOf="@+id/tv_favorites"
-                app:layout_constraintTop_toTopOf="@+id/tv_favorites" />
-
-            <TextView
-                android:id="@+id/tv_weekend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/what_to_do_weekend"
-                android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_favorites"
-                app:layout_constraintTop_toBottomOf="@+id/tv_favorites" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_hobby_des" />
 
             <TextView
                 android:id="@+id/tv_weekend_des"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/what_to_do_weekend_des"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_weekend"
-                app:layout_constraintStart_toEndOf="@+id/tv_weekend"
-                app:layout_constraintTop_toTopOf="@+id/tv_weekend" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_favorites_des" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

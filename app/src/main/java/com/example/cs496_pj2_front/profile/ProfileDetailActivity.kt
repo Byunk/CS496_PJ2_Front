@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcel
 import android.os.ParcelUuid
+import com.bumptech.glide.Glide
 import com.example.cs496_pj2_front.R
 import com.example.cs496_pj2_front.databinding.ActivityProfileDetailBinding
 import com.example.cs496_pj2_front.model.User
@@ -31,12 +32,29 @@ class ProfileDetailActivity : AppCompatActivity() {
 
         // Fetching Profile Data
         val userData: User = intent.getParcelableExtra("userData")!!
-        tvFood.text = userData.food + "를 잘 먹어요!"
-        tvHobby.text = userData.hobby + "를 좋아해요"
-        tvFavorites.text = userData.favorites + "에 관심 있어요!"
-        tvWeekend.text = userData.weekend + "하는 편이에요!"
+        tvFood.text = userData.food?.let {
+            it + "를 먹고싶어요!"
+        } ?: ""
+        tvHobby.text = userData.hobby?.let {
+            it + "를 좋아해요!"
+        } ?: ""
+        tvFavorites.text = userData.favorites?.let {
+            it + "에 관심있어요!"
+        } ?: ""
+        tvWeekend.text = userData.weekend?.let {
+            it + "를 하는 편이에요!"
+        } ?: ""
+
         name.text = userData.name
-        status.text = userData.status
+        status.text = userData.status ?: ""
+
+        if (userData.imgUrl != null) {
+            Glide.with(this)
+                .load(userData.imgUrl)
+                .into(imgProfile)
+        } else {
+            imgProfile.setImageResource(R.drawable.account)
+        }
 
         // Background Click Event
         card.setOnClickListener {
@@ -52,4 +70,5 @@ class ProfileDetailActivity : AppCompatActivity() {
         // Editing
 
     }
+
 }

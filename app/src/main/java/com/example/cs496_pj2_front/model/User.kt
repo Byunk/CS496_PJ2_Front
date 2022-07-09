@@ -1,24 +1,38 @@
 package com.example.cs496_pj2_front.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 import kotlin.collections.ArrayList
 
 @Parcelize
 data class User(
+    @SerializedName("id")
     val id: String,
-    val name: String,
-    val imgUrl: String = "",
-    var status: String = "",
-    //var friends: ArrayList<String> = arrayListOf<String>(),
 
-    var food: String = "",
-    var hobby: String = "",
-    var favorites: String = "",
-    var weekend: String = "",
+    @SerializedName("username")
+    val name: String,
+
+    @SerializedName("image_url")
+    val imgUrl: String?,
+
+    @SerializedName("status")
+    var status: String?,
+
+    @SerializedName("food")
+    var food: String?,
+
+    @SerializedName("hobby")
+    var hobby: String?,
+
+    @SerializedName("favorites")
+    var favorites: String?,
+
+    @SerializedName("weekend")
+    var weekend: String?,
 
     ): Parcelable
 
-data class Friends(
+data class FriendsResponse(
     var friendsID: ArrayList<String> = arrayListOf<String>(),
 )
