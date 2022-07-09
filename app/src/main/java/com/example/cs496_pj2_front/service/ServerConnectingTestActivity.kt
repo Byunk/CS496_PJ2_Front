@@ -7,7 +7,7 @@ import com.example.cs496_pj2_front.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+/*
 class ServerConnectingTestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,4 +24,4 @@ class ServerConnectingTestActivity : AppCompatActivity() {
             }
         })
     }
-}
+}*/

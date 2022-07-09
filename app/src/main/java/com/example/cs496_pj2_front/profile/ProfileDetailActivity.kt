@@ -30,19 +30,19 @@ class ProfileDetailActivity : AppCompatActivity() {
         val imgProfile = binding.imgProfile
 
         // Fetching Profile Data
-        val data = intent.getParcelableExtra<User>("userData")!!
-        tvFood.text = data.food + "를 잘 먹어요!"
-        tvHobby.text = data.hobby + "를 좋아해요"
-        tvFavorites.text = data.favorites + "에 관심 있어요!"
-        tvWeekend.text = data.weekend + "하는 편이에요!"
-        name.text = data.name
-        status.text = data.status
+        val userData: User = intent.getParcelableExtra("userData")!!
+        tvFood.text = userData.food + "를 잘 먹어요!"
+        tvHobby.text = userData.hobby + "를 좋아해요"
+        tvFavorites.text = userData.favorites + "에 관심 있어요!"
+        tvWeekend.text = userData.weekend + "하는 편이에요!"
+        name.text = userData.name
+        status.text = userData.status
 
         // Background Click Event
         card.setOnClickListener {
-            val id = data.id
+            val id = userData.id
             val intent = Intent(this, ProfileCalendarActivity::class.java)
-            intent.putExtra("userId", ParcelUuid(id))
+            intent.putExtra("id", id)
             startActivity(intent)
         }
 

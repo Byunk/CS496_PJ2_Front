@@ -9,6 +9,7 @@ import com.example.cs496_pj2_front.databinding.ActivitySignupBinding
 import com.example.cs496_pj2_front.model.SignupRequest
 import com.example.cs496_pj2_front.service.APIService
 import com.example.cs496_pj2_front.service.FAILURE
+import com.example.cs496_pj2_front.service.ResponseCode
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,14 +49,14 @@ class SignupActivity : AppCompatActivity() {
                 val request = SignupRequest(id, password, username, null)
                 val call = APIService.retrofitInterface.executeSignup(request)
 
-                call.enqueue(object: Callback<Int> {
-                    override fun onFailure(call: Call<Int>, t: Throwable) {
-                        Log.e(ContentValues.TAG, t.message!!)
+                call.enqueue(object: Callback<ResponseCode> {
+                    override fun onFailure(call: Call<ResponseCode>, t: Throwable) {
+                        Log.e(APIService.TAG, t.message!!)
                         Toast.makeText(this@SignupActivity, "회원가입 오류", Toast.LENGTH_SHORT).show()
                     }
 
-                    override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                        if (response.body() == FAILURE) {
+                    override fun onResponse(call: Call<ResponseCode>, response: Response<ResponseCode>) {
+                        if (response.body()!!.code == FAILURE) {
                             Toast.makeText(this@SignupActivity, "회원가입 실패. 다시 시도하세요.", Toast.LENGTH_SHORT).show()
                         } else {
                             // Move to Login Activity

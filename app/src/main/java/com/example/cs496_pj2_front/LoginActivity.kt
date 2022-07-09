@@ -7,12 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.cs496_pj2_front.databinding.ActivityLoginBinding
-import com.example.cs496_pj2_front.model.Login
+import com.example.cs496_pj2_front.model.LoginResponse
 import com.example.cs496_pj2_front.model.LoginRequest
 import com.example.cs496_pj2_front.model.SignupRequest
 import com.example.cs496_pj2_front.model.User
 import com.example.cs496_pj2_front.service.APIService
 import com.example.cs496_pj2_front.service.FAILURE
+import com.example.cs496_pj2_front.service.ResponseCode
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -109,19 +110,20 @@ class LoginActivity : AppCompatActivity() {
     }
 
     //region Login Logic
-    private fun loginCallback(call: Call<Login>) {
-        call.enqueue(object: Callback<Login> {
-            override fun onFailure(call: Call<Login>, t: Throwable) {
-                Log.e(TAG, t.message!!)
+    private fun loginCallback(call: Call<LoginResponse>) {
+        call.enqueue(object: Callback<LoginResponse> {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.e(APIService.TAG, t.message!!)
                 Toast.makeText(context, "로그인 오류", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onResponse(call: Call<Login>, response: Response<Login>) {
-                if (response.body()?.userId == null) {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                Log.i(APIService.TAG, response.body()?.id!!)
+                if (response.body()?.id == null) {
                     Toast.makeText(context, "계정정보가 존재하지 않음.", Toast.LENGTH_SHORT).show()
                 } else {
                     // Move to Main Activity
-                    val userId = response.body()?.userId!!
+                    val userId = response.body()?.id!!
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     intent.putExtra("id", userId)
                     startActivity(intent)
@@ -159,13 +161,13 @@ class LoginActivity : AppCompatActivity() {
                 // Check DB
                 val request = LoginRequest(null, null, kakaoId.toString())
                 val call = APIService.retrofitInterface.executeLogin(request)
-                call.enqueue(object: Callback<Login> {
-                    override fun onFailure(call: Call<Login>, t: Throwable) {
+                call.enqueue(object: Callback<LoginResponse> {
+                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         Log.e(TAG, t.message!!)
                     }
 
-                    override fun onResponse(call: Call<Login>, response: Response<Login>) {
-                        if (response.body()?.userId == null) {
+                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                        if (response.body()?.id == null) {
                             // If no local ID, PW -> Auto Sign up
                             val id = user.kakaoAccount?.email!!
                             val pw = "password"
@@ -174,15 +176,14 @@ class LoginActivity : AppCompatActivity() {
                             val request = SignupRequest(id, pw, username, kakaoId.toString())
                             val callSignup = APIService.retrofitInterface
                                 .executeSignup(request)
-
-                            callSignup.enqueue(object: Callback<Int>{
-                                override fun onFailure(call: Call<Int>, t: Throwable) {
+                            callSignup.enqueue(object: Callback<ResponseCode>{
+                                override fun onFailure(call: Call<ResponseCode>, t: Throwable) {
                                     Log.e(TAG, t.message!!)
                                     Toast.makeText(context, "자동 로그인 오류. 다시 시도하세요.", Toast.LENGTH_SHORT).show()
                                 }
 
-                                override fun onResponse(call: Call<Int>, response: Response<Int>) {
-                                   if (response.body() == FAILURE) {
+                                override fun onResponse(call: Call<ResponseCode>, response: Response<ResponseCode>) {
+                                   if (response.body()!!.code == FAILURE) {
                                        Toast.makeText(context, "회원 가입 실패.", Toast.LENGTH_SHORT).show()
                                    } else {
                                        Toast.makeText(context, "자동 로그인 성공. 비밀번호를 변경하세요. 기본 비밀번호: password", Toast.LENGTH_SHORT).show()

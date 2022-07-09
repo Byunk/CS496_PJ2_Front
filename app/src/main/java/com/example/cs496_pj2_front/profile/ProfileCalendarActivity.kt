@@ -14,6 +14,7 @@ class ProfileCalendarActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileCalendarBinding
     private lateinit var pager: ViewPager2
+    private lateinit var id: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +22,10 @@ class ProfileCalendarActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Get Intent
-        val id: UUID = intent.getParcelableExtra("userId")!!
+        id = intent.getStringExtra("id")!!
 
         // Pager Binding
-        val adapter = CalendarStateAdapter(this, id)
+        val adapter = CalendarStateAdapter(this)
         pager = binding.pagerCalendar
         pager.adapter = adapter
         pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -34,15 +35,15 @@ class ProfileCalendarActivity : AppCompatActivity() {
 
 
     }
-}
 
-class CalendarStateAdapter(fragmentActivity: FragmentActivity, id: UUID): FragmentStateAdapter(fragmentActivity) {
-    val firstFragmentPosition = Int.MAX_VALUE / 2
-    val id = id
+    inner class CalendarStateAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapter(fragmentActivity) {
+        val firstFragmentPosition = Int.MAX_VALUE / 2
 
-    override fun getItemCount(): Int = Int.MAX_VALUE
+        override fun getItemCount(): Int = Int.MAX_VALUE
 
-    override fun createFragment(position: Int): Fragment {
-        return CalendarFragment(position, id)
+        override fun createFragment(position: Int): Fragment {
+            return CalendarFragment(position, id)
+        }
     }
 }
+

@@ -21,15 +21,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var pager: ViewPager2
     private lateinit var binding: ActivityMainBinding
-    lateinit var data: User
+    private lateinit var id: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        data = intent.getParcelableExtra("userData")!!
-
+        id = intent.getStringExtra("id")!!
         val navBar: BottomNavigationView = binding.bottomNavigationView
 
         //Pager Configuration
@@ -48,11 +47,10 @@ class MainActivity : AppCompatActivity() {
         navBar.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_profile -> pager.setCurrentItem(0)
-                R.id.nav_chat -> pager.setCurrentItem(1)
+                //R.id.nav_chat -> pager.setCurrentItem(1)
             }
             true
         }
-
 
     }
 
@@ -63,10 +61,10 @@ class MainActivity : AppCompatActivity() {
 
         override fun createFragment(position: Int): Fragment {
             when (position) {
-                0 -> return ProfileFragment(data)
-                1 -> return ChatFragment()
+                0 -> return ProfileFragment(id)
+                //1 -> return ChatFragment()
             }
-            return ProfileFragment(data)
+            return ProfileFragment(id)
         }
     }
 }
